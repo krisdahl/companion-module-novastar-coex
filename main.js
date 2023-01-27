@@ -2,6 +2,10 @@ const { InstanceBase, Regex, runEntrypoint, InstanceStatus } = require('@compani
 const UpgradeScripts = require('./upgrades')
 const UpdateActions = require('./actions')
 
+const _ = require('lodash');
+const superagent = require('superagent');
+
+
 class ModuleInstance extends InstanceBase {
 	constructor(internal) {
 		super(internal)
@@ -10,6 +14,7 @@ class ModuleInstance extends InstanceBase {
 	async init(config) {
 		this.config = config
 
+		//todo connect to the API first
 		this.updateStatus(InstanceStatus.Ok)
 
 		this.updateActions() // export actions
@@ -29,16 +34,17 @@ class ModuleInstance extends InstanceBase {
 			{
 				type: 'textinput',
 				id: 'host',
-				label: 'Target IP',
+				label: 'IP',
 				width: 8,
 				regex: Regex.IP,
 			},
 			{
 				type: 'textinput',
 				id: 'port',
-				label: 'Target Port',
+				label: 'Port',
 				width: 4,
 				regex: Regex.PORT,
+				default : '8001'
 			},
 		]
 	}
